@@ -1,1 +1,1 @@
-# Booking-App
+# Book Seats Application
