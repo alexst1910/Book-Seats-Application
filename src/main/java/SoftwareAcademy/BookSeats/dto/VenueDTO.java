@@ -4,6 +4,7 @@ public class VenueDTO {
 	private long venueId;
 	private String name;
 	private String address;
+	private Integer totalSeats;
 	private Integer availableSeats;
 	
 	
@@ -44,6 +45,16 @@ public class VenueDTO {
 	
 	public void setAvailableSeats(Integer availableSeats) {
 		this.availableSeats = availableSeats;
+	}
+
+
+	public Integer getTotalSeats() {
+		return totalSeats;
+	}
+
+
+	public void setTotalSeats(Integer totalSeats) {
+		this.totalSeats = totalSeats;
 	}
 	
 	

@@ -1,5 +1,7 @@
 package SoftwareAcademy.BookSeats.dto;
 
+import java.util.List;
+
 public class UserDTO {
 	
 	private long userId;
@@ -8,7 +10,7 @@ public class UserDTO {
 	private String username;
 	private String email;
 	private String password;
-	
+	private List<BookingDTO> bookings;
 	
 	public long getUserId() {
 		return userId;
@@ -55,6 +57,14 @@ public class UserDTO {
 	
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public List<BookingDTO> getBookings() {
+		return bookings;
+	}
+
+	public void setBookings(List<BookingDTO> bookings) {
+		this.bookings = bookings;
 	}
 	
 }

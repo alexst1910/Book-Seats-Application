@@ -17,6 +17,7 @@ public class VenueService {
 		firstVenue.setVenueId(2L);
 		firstVenue.setName("Music Pub");
 		firstVenue.setAddress("Sibiu");
+		firstVenue.setTotalSeats(100);		
 		firstVenue.setAvailableSeats(100);
 		
 		

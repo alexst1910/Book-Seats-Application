@@ -10,6 +10,7 @@ public class BookingDTO {
 	private LocalTime timeFrom;
 	private LocalTime timeTo;
 	private Integer seats;
+	private UserDTO user;
 	
 	
 	public long getBookingId() {
@@ -59,6 +60,16 @@ public class BookingDTO {
 	
 	public void setSeats(Integer seats) {
 		this.seats = seats;
+	}
+
+
+	public UserDTO getUser() {
+		return user;
+	}
+
+
+	public void setUser(UserDTO user) {
+		this.user = user;
 	}
 	
 }
