@@ -14,14 +14,8 @@ public class VenueService {
 	
 	public VenueService() {
 		VenueDTO firstVenue =new VenueDTO();
-		firstVenue.setVenueId(2L);
-		firstVenue.setName("Music Pub");
-		firstVenue.setAddress("Sibiu");
-		firstVenue.setTotalSeats(100);		
-		firstVenue.setAvailableSeats(100);
 		
 		
-		venues.add(firstVenue);
 	}
 	
 	public List<VenueDTO> getVenues(){
@@ -37,5 +31,5 @@ public class VenueService {
 	
 	
 	public Boolean deleteVenue(Long id) {
-		return venues.removeIf(venue -> venue.getVenueId() == id);	}
+		return true;	}
 }

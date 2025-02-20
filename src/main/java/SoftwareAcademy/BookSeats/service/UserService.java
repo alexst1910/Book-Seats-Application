@@ -17,25 +17,6 @@ public class UserService {
 	
 	public UserService() {
 		
-		UserDTO firstUser=new UserDTO();
-		UserDTO secondUser=new UserDTO();
-		
-		firstUser.setUserId(12L);
-		firstUser.setFirstName("Alex");
-		firstUser.setLastName("Stanciu");
-		firstUser.setEmail("alexst@alex");
-		firstUser.setPassword("1234");
-		firstUser.setUsername("alexst1910");
-		
-		secondUser.setUserId(13L);
-	    secondUser.setFirstName("Ion");
-		secondUser.setLastName("Popescu");
-		secondUser.setEmail("ion@ion");
-		secondUser.setPassword("666");
-		secondUser.setUsername("ion_popescu");
-		
-		users.add(firstUser);
-		users.add(secondUser);
 	}
 	
 	public List<UserDTO> getUsers() {
@@ -47,7 +28,7 @@ public class UserService {
 		
 		}
 
-	public Boolean deleteUser(Long id) {
-		return users.removeIf(user -> user.getUserId() == id);	
-		}
+//	public Boolean deleteUser(Long id) {
+//		return users.removeIf(user -> user.getUserId() == id);	
+//		}
 }

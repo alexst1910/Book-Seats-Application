@@ -16,14 +16,7 @@ List<BookingDTO> bookings = new ArrayList<BookingDTO>();
 	
 	public BookingService() {
 		
-		BookingDTO firstBooking =new BookingDTO();
-		firstBooking.setBookingId(2L);
-		firstBooking.setDate(LocalDate.of(2025, 1, 24));
-		firstBooking.setTimeFrom(LocalTime.of(20, 00));
-		firstBooking.setTimeTo(LocalTime.of(23, 00));
-		firstBooking.setSeats(5);
 		
-		bookings.add(firstBooking);
 	}
 	
 	public List<BookingDTO> getBookings(){
@@ -35,6 +28,6 @@ List<BookingDTO> bookings = new ArrayList<BookingDTO>();
 	}
 	
 	public Boolean deleteBooking(Long id) {
-		return bookings.removeIf(booking -> booking.getBookingId()==id);
+		return true;
 	}
 }
