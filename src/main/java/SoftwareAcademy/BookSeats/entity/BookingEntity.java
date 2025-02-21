@@ -13,7 +13,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Data
 @NoArgsConstructor
 @Table(name="booking")
 public class BookingEntity {
@@ -21,8 +20,9 @@ public class BookingEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name="booking_id")
-	private Long id;
+	private Long bookingId;
 	
+
 	@Column
 	private LocalDate date;
 	
@@ -34,4 +34,44 @@ public class BookingEntity {
 	
 	@Column
 	private Integer seats;
+	
+	public Long getBookingId() {
+		return bookingId;
+	}
+
+	public void setBookingId(Long id) {
+		this.bookingId = id;
+	}
+
+	public LocalDate getDate() {
+		return date;
+	}
+
+	public void setDate(LocalDate date) {
+		this.date = date;
+	}
+
+	public LocalTime getTimeFrom() {
+		return timeFrom;
+	}
+
+	public void setTimeFrom(LocalTime timeFrom) {
+		this.timeFrom = timeFrom;
+	}
+
+	public LocalTime getTimeTo() {
+		return timeTo;
+	}
+
+	public void setTimeTo(LocalTime timeTo) {
+		this.timeTo = timeTo;
+	}
+
+	public Integer getSeats() {
+		return seats;
+	}
+
+	public void setSeats(Integer seats) {
+		this.seats = seats;
+	}
 }

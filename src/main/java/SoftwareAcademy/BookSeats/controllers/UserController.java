@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import SoftwareAcademy.BookSeats.dto.UserDTO;
+import SoftwareAcademy.BookSeats.entity.UserEntity;
 import SoftwareAcademy.BookSeats.service.UserService;
 
 
@@ -37,6 +38,7 @@ public class UserController {
 	
 	@DeleteMapping("/deleteUserById/{id}")
 	public Boolean deleteUser(@PathVariable Long id) {
+		userService.deleteUserById(id);
 		return true;	}
 }
 

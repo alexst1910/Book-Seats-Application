@@ -10,7 +10,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Data
 @NoArgsConstructor
 @Table(name="role")
 public class RoleEntity {
@@ -18,9 +17,27 @@ public class RoleEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name="role_id")
-	private Long id;
+	private Long roleId;
 	
 	@Column
 	private String role;
+
+	public Long getRoleId() {
+		return roleId;
+	}
+
+	public void setRoleId(Long id) {
+		this.roleId = id;
+	}
+
+	public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
+	}
+	
+	
 	
 }

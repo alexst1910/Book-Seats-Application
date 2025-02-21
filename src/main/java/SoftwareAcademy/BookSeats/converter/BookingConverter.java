@@ -9,7 +9,7 @@ public class BookingConverter {
 
 	public static BookingDTO toDto(BookingEntity bookingEntity) {
 		BookingDTO dto= new BookingDTO();
-		dto.setBookingId(bookingEntity.getBookingId());
+		
 		dto.setDate(bookingEntity.getDate());
 		dto.setTimeFrom(bookingEntity.getTimeFrom());
 		dto.setTimeTo(bookingEntity.getTimeTo());
@@ -21,7 +21,7 @@ public class BookingConverter {
 	public static BookingEntity toEntity(BookingDTO bookingDto) {
 		
 		BookingEntity entity= new BookingEntity();
-		entity.setBookingId(bookingDto.getBookingId());
+		
 		entity.setDate(bookingDto.getDate());
 	    entity.setTimeFrom(bookingDto.getTimeFrom());
 		entity.setTimeTo(bookingDto.getTimeTo());

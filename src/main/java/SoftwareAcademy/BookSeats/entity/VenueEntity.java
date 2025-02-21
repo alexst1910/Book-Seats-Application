@@ -10,7 +10,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Data
 @NoArgsConstructor
 @Table(name="venue")
 public class VenueEntity {
@@ -18,7 +17,7 @@ public class VenueEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name="venue_id")
-	private Long id;
+	private Long venueId;
 	
 	@Column
 	private String name;
@@ -31,6 +30,47 @@ public class VenueEntity {
 	
 	@Column(name="available_seats")
 	private Integer availableSeats;
+
+	public Long getVenueId() {
+		return venueId;
+	}
+
+	public void setVenueId(Long id) {
+		this.venueId = id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public Integer getTotalSeats() {
+		return totalSeats;
+	}
+
+	public void setTotalSeats(Integer totalSeats) {
+		this.totalSeats = totalSeats;
+	}
+
+	public Integer getAvailableSeats() {
+		return availableSeats;
+	}
+
+	public void setAvailableSeats(Integer availableSeats) {
+		this.availableSeats = availableSeats;
+	}
+	
 	
 	
 }
