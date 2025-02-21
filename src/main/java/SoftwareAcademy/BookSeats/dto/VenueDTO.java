@@ -12,7 +12,7 @@ public class VenueDTO {
 	private String address;
 	private Integer totalSeats;
 	private Integer availableSeats;
-	private List<BookingDTO> bookings;
+	//private List<BookingDTO> bookings;
 	
 	
 	

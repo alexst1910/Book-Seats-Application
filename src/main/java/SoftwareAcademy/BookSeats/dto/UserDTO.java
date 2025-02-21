@@ -13,8 +13,8 @@ public class UserDTO {
 	private String username;
 	private String email;
 	private String password;
-	private RoleDTO role;
-	private List<BookingDTO> bookings;
+	//private RoleDTO role;
+	//private List<BookingDTO> bookings;
 	
 	
 //	public long getUserId() {

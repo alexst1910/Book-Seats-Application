@@ -13,7 +13,7 @@ public class BookingDTO {
 	private LocalTime timeFrom;
 	private LocalTime timeTo;
 	private Integer seats;
-	private UserDTO user;
+	//private UserDTO user;
 	
 	
 }

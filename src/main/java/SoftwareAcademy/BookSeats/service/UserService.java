@@ -8,23 +8,22 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import SoftwareAcademy.BookSeats.dto.UserDTO;
+import SoftwareAcademy.BookSeats.repository.UserRepository;
 
 @Service
 public class UserService {
 
+	private UserRepository userRepository;
 	
-	List<UserDTO> users= new ArrayList<UserDTO>();
 	
-	public UserService() {
-		
+	public UserService(UserRepository userRepository) {
+		this.userRepository=userRepository;
 	}
 	
-	public List<UserDTO> getUsers() {
-		return users;
-	}
+	
 	
 	public void addUser(UserDTO user) {
-		users.add(user);
+		
 		
 		}
 
