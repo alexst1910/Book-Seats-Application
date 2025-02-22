@@ -25,7 +25,11 @@ public class UserService {
 	}
 	
 	public List<UserDTO> getUsers() {
-		return Streamable.of(userRepository.findAll()).map(userEntity -> UserConverter.toDto(userEntity)).toList();
+		return Streamable.of(userRepository.findAll()).map(userEntity -> UserConverter.toDtoWithBookings(userEntity)).toList();
+	}
+	
+	public List<UserDTO> getAllByFirstNameContaining(String firstName){
+		return Streamable.of(userRepository.findAllByFirstNameContaining(firstName)).map(userEntity -> UserConverter.toDto(userEntity)).toList();
 	}
 	
 	

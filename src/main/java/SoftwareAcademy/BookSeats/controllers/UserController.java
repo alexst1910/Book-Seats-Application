@@ -29,6 +29,11 @@ public class UserController {
 		return userService.getUsers();
 	}
 	
+	@GetMapping("/allUsersByFirstName/{first-name}")
+	public List<UserDTO> getAllByFirstnameContaining(@PathVariable("first-name") String firstName) {
+		return userService.getAllByFirstNameContaining(firstName);
+	}
+	
 	@PostMapping("/addUser")
 	public String addUser(@RequestBody UserDTO user) {
 		userService.addUser(user);

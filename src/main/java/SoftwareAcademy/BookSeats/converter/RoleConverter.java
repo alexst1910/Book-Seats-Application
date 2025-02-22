@@ -8,6 +8,7 @@ public class RoleConverter {
 	public static RoleDTO toDto(RoleEntity roleEntity) {
 		RoleDTO dto=new RoleDTO();
 		
+		dto.setRoleId(roleEntity.getRoleId());
 		dto.setRole(roleEntity.getRole());
 		return dto;
 	}

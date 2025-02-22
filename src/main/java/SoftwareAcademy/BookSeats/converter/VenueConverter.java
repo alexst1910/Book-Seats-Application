@@ -9,7 +9,7 @@ public class VenueConverter {
 
 	public static VenueDTO toDto(VenueEntity venueEntity) {
 		VenueDTO dto= new VenueDTO();
-		
+		dto.setVenueId(venueEntity.getVenueId());
 		dto.setName(venueEntity.getName());
 		dto.setAddress(venueEntity.getAddress());
 		dto.setTotalSeats(venueEntity.getTotalSeats());

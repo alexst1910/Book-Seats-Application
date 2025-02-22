@@ -31,6 +31,9 @@ public class BookingController {
 	
 	@PostMapping("/addBooking")
 	public String addBooking(@RequestBody BookingDTO booking) {
+		
+	
+
 		bookingService.addBooking(booking);
 		return "booking has been saved";
 	}
