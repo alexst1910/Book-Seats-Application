@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import SoftwareAcademy.BookSeats.dto.BookingDTO;
+import SoftwareAcademy.BookSeats.dto.VenueDTO;
 import SoftwareAcademy.BookSeats.service.BookingService;
 
 
@@ -30,11 +31,11 @@ public class BookingController {
 	}
 	
 	@PostMapping("/addBooking")
-	public String addBooking(@RequestBody BookingDTO booking) {
+	public String addBooking(@RequestBody BookingDTO booking, VenueDTO venue) {
 		
 	
 
-		bookingService.addBooking(booking);
+		bookingService.addBooking(booking, venue);
 		return "booking has been saved";
 	}
 	

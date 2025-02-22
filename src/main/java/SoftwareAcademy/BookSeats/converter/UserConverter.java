@@ -26,9 +26,6 @@ public class UserConverter {
 		dto.setPassword(userEntity.getPassword());
 		dto.setUsername(userEntity.getUsername());
 		
-//		if(userEntity.getBookings()!= null) {
-//			dto.setBookings(bookingEntitiesToDto(userEntity.getBookings()));
-//		}
 		
 		 return dto;
 		 
@@ -46,23 +43,5 @@ public class UserConverter {
 		return entity;
 	}
 	
-//	private static List<BookingDTO> bookingEntitiesToDto(List<BookingEntity> bookingEntities){
-//		
-//		List<BookingDTO> bookingDTOs =new ArrayList<>();
-//		for(BookingEntity bookingEntity : bookingEntities) {
-//			bookingDTOs.add(BookingConverter.toDto(bookingEntity));
-//		}
-//		
-//		return bookingDTOs;
-//	}
-//	
-//private static List<BookingEntity> bookingDTOsToEntities(List<BookingDTO> bookingDTOs){
-//		
-//		List<BookingEntity> bookingEntities =new ArrayList<>();
-//		for(BookingDTO bookingDTO : bookingDTOs) {
-//			bookingEntities.add(BookingConverter.toEntity(bookingDTO));
-//		}
-//		
-//		return bookingEntities;
-//	}
+
 }

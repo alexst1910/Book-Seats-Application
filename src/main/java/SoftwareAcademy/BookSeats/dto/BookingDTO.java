@@ -18,6 +18,8 @@ public class BookingDTO {
 	private Integer seats;
 	@JsonProperty(value="user")
 	private UserDTO user;
+	@JsonProperty(value="venue")
+	private VenueDTO venue;
 	
 	
 	

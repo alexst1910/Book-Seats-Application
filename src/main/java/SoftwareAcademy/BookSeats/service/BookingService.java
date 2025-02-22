@@ -11,10 +11,13 @@ import org.springframework.stereotype.Service;
 
 import SoftwareAcademy.BookSeats.converter.BookingConverter;
 import SoftwareAcademy.BookSeats.dto.BookingDTO;
+import SoftwareAcademy.BookSeats.dto.VenueDTO;
 import SoftwareAcademy.BookSeats.entity.BookingEntity;
 import SoftwareAcademy.BookSeats.entity.UserEntity;
+import SoftwareAcademy.BookSeats.entity.VenueEntity;
 import SoftwareAcademy.BookSeats.repository.BookingRepository;
 import SoftwareAcademy.BookSeats.repository.UserRepository;
+import SoftwareAcademy.BookSeats.repository.VenueRepository;
 
 @Service
 public class BookingService {
@@ -23,10 +26,12 @@ List<BookingDTO> bookings = new ArrayList<BookingDTO>();
 	
    BookingRepository bookingRepository;
    UserRepository userRepository;
+   VenueRepository venueRepository;
    
-	public BookingService(BookingRepository bookingRepository, UserRepository userRepository) {
+	public BookingService(BookingRepository bookingRepository, UserRepository userRepository, VenueRepository venueRepository) {
 		this.bookingRepository=bookingRepository;
 		this.userRepository=userRepository;
+		this.venueRepository=venueRepository;
 		
 	}
 	
@@ -34,18 +39,30 @@ List<BookingDTO> bookings = new ArrayList<BookingDTO>();
 		return Streamable.of(bookingRepository.findAll()).map(bookingEntity -> BookingConverter.toDto(bookingEntity)).toList();
 	}
 	
-	public void addBooking(BookingDTO booking) {
+	public void addBooking(BookingDTO booking, VenueDTO venue) {
 		
 		BookingEntity bookingEntity=BookingConverter.toEntity(booking);
 		
-	if (booking.getUser() != null && booking.getUser().getUserId() != null) {
+		// logic to assign the user id to booking
+		if (booking.getUser() != null && booking.getUser().getUserId() != null) {
+				
+		        UserEntity existingUser = userRepository.findById(booking.getUser().getUserId())
+		                .orElseThrow(() -> new RuntimeException("User not found with ID: " + booking.getUser().getUserId()));
+		        bookingEntity.setUser(existingUser); 
+		    } else {
+		        throw new RuntimeException("User must be provided when creating a booking.");
+		    }
+	
+		// logic to assign the venue id to booking
+		if (booking.getVenue() != null && booking.getVenue().getVenueId() != null) {
 			
-	        UserEntity existingUser = userRepository.findById(booking.getUser().getUserId())
-	                .orElseThrow(() -> new RuntimeException("User not found with ID: " + booking.getUser().getUserId()));
-	        bookingEntity.setUser(existingUser); 
+	        VenueEntity existingVenue = venueRepository.findById(booking.getVenue().getVenueId())
+	                .orElseThrow(() -> new RuntimeException("Venue not found with ID: " + booking.getVenue().getVenueId()));
+	        bookingEntity.setVenue(existingVenue); 
 	    } else {
-	        throw new RuntimeException("User must be provided when creating a booking.");
+	        throw new RuntimeException("Venue must be provided when creating a booking.");
 	    }
+		
 		
 		 bookingRepository.save(bookingEntity);
 	}

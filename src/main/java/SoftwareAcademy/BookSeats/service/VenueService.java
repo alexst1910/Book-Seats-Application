@@ -24,7 +24,7 @@ public class VenueService {
 	}
 	
 	public List<VenueDTO> getVenues(){
-		return Streamable.of(venueRepository.findAll()).map(venueEntity -> VenueConverter.toDto(venueEntity)).toList();
+		return Streamable.of(venueRepository.findAll()).map(venueEntity -> VenueConverter.toDtoWithBookings(venueEntity)).toList();
 	}
 	
 	

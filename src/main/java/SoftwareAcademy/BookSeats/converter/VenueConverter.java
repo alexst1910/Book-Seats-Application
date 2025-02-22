@@ -6,6 +6,13 @@ import SoftwareAcademy.BookSeats.entity.UserEntity;
 import SoftwareAcademy.BookSeats.entity.VenueEntity;
 
 public class VenueConverter {
+	
+	public static VenueDTO toDtoWithBookings(VenueEntity venueEntity) {
+		VenueDTO dto=toDto(venueEntity);
+		dto.setBookings(venueEntity.getBookings().stream().map(bookingEntity -> BookingConverter.toDto(bookingEntity)).toList());
+		
+		return dto;
+	}
 
 	public static VenueDTO toDto(VenueEntity venueEntity) {
 		VenueDTO dto= new VenueDTO();

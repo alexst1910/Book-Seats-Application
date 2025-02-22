@@ -47,7 +47,9 @@ public class BookingEntity {
 	@JoinColumn(name="user_id")
 	private UserEntity user;
 	
-	
+	@ManyToOne(cascade=CascadeType.MERGE)
+	@JoinColumn(name="venue_id")
+	private VenueEntity venue;
 
 
 }
