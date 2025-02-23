@@ -14,6 +14,7 @@ public class VenueDTO {
 	private String address;
 	private Integer totalSeats;
 	private Integer availableSeats;
+	private String cover;
 	private List<BookingDTO> bookings;
 	
 	

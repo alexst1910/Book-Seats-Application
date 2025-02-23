@@ -35,6 +35,9 @@ public class VenueEntity {
 	
 	@Column(name="available_seats")
 	private Integer availableSeats;
+	
+	@Column
+	private String cover;
 
 	@OneToMany(mappedBy="venue",
 			cascade = CascadeType.ALL,orphanRemoval = true)

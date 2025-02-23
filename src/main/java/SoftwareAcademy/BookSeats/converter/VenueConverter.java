@@ -20,6 +20,7 @@ public class VenueConverter {
 		dto.setName(venueEntity.getName());
 		dto.setAddress(venueEntity.getAddress());
 		dto.setTotalSeats(venueEntity.getTotalSeats());
+		dto.setCover(venueEntity.getCover());
 		dto.setAvailableSeats(venueEntity.getAvailableSeats());
 		
 		 return dto;
@@ -32,6 +33,7 @@ public class VenueConverter {
 		entity.setAddress(venueDto.getAddress());
 		entity.setTotalSeats(venueDto.getTotalSeats());
 		entity.setAvailableSeats(venueDto.getAvailableSeats());
+		entity.setCover(venueDto.getCover());
 		
 		 return entity;
 	}
