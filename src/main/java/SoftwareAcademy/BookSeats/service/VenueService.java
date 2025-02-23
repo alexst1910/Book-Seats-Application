@@ -27,6 +27,10 @@ public class VenueService {
 		return Streamable.of(venueRepository.findAll()).map(venueEntity -> VenueConverter.toDtoWithBookings(venueEntity)).toList();
 	}
 	
+	public List<VenueDTO> getVenuesById(Long id){
+		return Streamable.of(venueRepository.findByVenueId(id)).map(venueEntity -> VenueConverter.toDtoWithBookings(venueEntity)).toList();
+	}
+	
 	
 	public void addVenue(VenueDTO venue) {
 		VenueEntity venueEntity=VenueConverter.toEntity(venue);

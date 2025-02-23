@@ -29,6 +29,11 @@ public class VenueController {
 		return venueService.getVenues();
 	}
 	
+	@GetMapping("/getVenueById/{id}")
+	public List<VenueDTO> getVenuesById(@PathVariable Long id){
+		return venueService.getVenuesById(id);
+	}
+	
 	@PostMapping("/addVenue")
 	public String addVenue(@RequestBody VenueDTO venue) {
 		venueService.addVenue(venue);
