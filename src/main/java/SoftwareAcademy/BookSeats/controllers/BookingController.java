@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -36,12 +37,18 @@ public class BookingController {
 	@PostMapping("/addBooking")
 	public String addBooking(@RequestBody BookingDTO booking) {
 		
-	
 
 		bookingService.addBooking(booking);
 		return "booking has been saved";
 	}
 	
+	@PatchMapping("/updateBooking/{id}")
+	public String update(@RequestBody BookingDTO booking, @PathVariable Long id) {
+		
+		bookingService.findById(booking, id);
+		bookingService.updateBooking(booking);
+		return "booking has been updated";
+	}
 	
 	@PostMapping("/submitBooking")
 	public String submitBooking(@ModelAttribute BookingDTO booking) {
