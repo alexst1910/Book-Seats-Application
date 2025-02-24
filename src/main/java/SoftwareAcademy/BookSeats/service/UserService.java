@@ -2,8 +2,11 @@ package SoftwareAcademy.BookSeats.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.util.Streamable;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,9 +22,12 @@ public class UserService {
 
 	private UserRepository userRepository;
 	
+
+	
 	
 	public UserService(UserRepository userRepository) {
 		this.userRepository=userRepository;
+		
 	}
 	
 	public List<UserDTO> getUsers() {
@@ -32,6 +38,17 @@ public class UserService {
 		return Streamable.of(userRepository.findAllByFirstNameContaining(firstName)).map(userEntity -> UserConverter.toDto(userEntity)).toList();
 	}
 	
+	public void login(UserDTO userDTO) {
+		
+		Optional<UserEntity> userOptional = userRepository.findByUsername(userDTO.getUsername());
+
+        if (userOptional.isPresent()) {
+             
+         System.out.println("Login Successful!");
+        }
+       
+		
+	}
 	
 	public void addUser(UserDTO user) {
 		

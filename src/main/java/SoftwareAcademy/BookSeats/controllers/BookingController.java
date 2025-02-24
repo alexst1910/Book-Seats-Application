@@ -34,29 +34,20 @@ public class BookingController {
 	}
 	
 	@PostMapping("/addBooking")
-	public String addBooking(@RequestBody BookingDTO booking, VenueDTO venue) {
+	public String addBooking(@RequestBody BookingDTO booking) {
 		
 	
 
-		bookingService.addBooking(booking, venue);
+		bookingService.addBooking(booking);
 		return "booking has been saved";
 	}
 	
 	
 	@PostMapping("/submitBooking")
-	public String submitBooking(@RequestParam LocalDate date,
-            @RequestParam Integer seats,
-            @RequestParam LocalTime timeFrom,
-            @RequestParam LocalTime timeTo,
-            @RequestParam VenueDTO venue) {
-			BookingDTO booking = new BookingDTO();
-			booking.setDate(date);
-			booking.setSeats(seats);
-			booking.setTimeFrom(timeFrom);
-			booking.setTimeTo(timeTo);
-			booking.setVenue(venue);
+	public String submitBooking(@ModelAttribute BookingDTO booking) {
+            
 
-			bookingService.addBooking(booking, venue);
+			bookingService.addBooking(booking);
 			return "booking has been saved";
 }
 	

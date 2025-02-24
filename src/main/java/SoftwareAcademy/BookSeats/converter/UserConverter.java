@@ -3,12 +3,17 @@ package SoftwareAcademy.BookSeats.converter;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
 import SoftwareAcademy.BookSeats.dto.BookingDTO;
 import SoftwareAcademy.BookSeats.dto.UserDTO;
 import SoftwareAcademy.BookSeats.entity.BookingEntity;
 import SoftwareAcademy.BookSeats.entity.UserEntity;
 
 public class UserConverter {
+	
+	
 	
 	public static UserDTO toDtoWithBookings(UserEntity userEntity) {
 		UserDTO dto=toDto(userEntity);
