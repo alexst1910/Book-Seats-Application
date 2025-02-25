@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import SoftwareAcademy.BookSeats.dto.LoginDTO;
 import SoftwareAcademy.BookSeats.dto.UserDTO;
 import SoftwareAcademy.BookSeats.entity.UserEntity;
 import SoftwareAcademy.BookSeats.service.UserService;
@@ -40,32 +41,21 @@ public class UserController {
 	}
 	
 	@PostMapping("/addUser")
-	public String addUser(@RequestBody UserDTO user) {
+	public String addUser(@RequestBody UserEntity user) {
 		userService.addUser(user);
 		return "user has been saved";
 		
 		}
 	
 	@PostMapping("/login")
-	public void login(@RequestBody UserDTO userDTO) {
+	public void login(@RequestBody LoginDTO login) {
 		
-		userService.login(userDTO);
+		userService.login(login);
 		
 		
 	}
 	
-	@PostMapping("/registerUser")
-	public ResponseEntity<Map<String, Object>> registerUser(@RequestBody UserDTO user) {
-	    userService.addUser(user);
 
-	   
-	    Map<String, Object> response = new HashMap<>();
-	    response.put("message", "User created successfully");
-	    response.put("user", user); 
-
-	   
-	    return ResponseEntity.status(HttpStatus.CREATED).body(response);
-	}
 	
 	
 	@DeleteMapping("/deleteUserById/{id}")

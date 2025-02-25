@@ -30,6 +30,7 @@ public class UserConverter {
 		dto.setEmail(userEntity.getEmail());
 		dto.setPassword(userEntity.getPassword());
 		dto.setUsername(userEntity.getUsername());
+		dto.setRole(userEntity.getRole());
 		
 		
 		 return dto;
