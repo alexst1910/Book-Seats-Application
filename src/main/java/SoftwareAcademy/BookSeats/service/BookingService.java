@@ -69,14 +69,12 @@ List<BookingDTO> bookings = new ArrayList<BookingDTO>();
 		return Streamable.of(bookingRepository.findByBookingId(id)).map(bookingEntity -> BookingConverter.toDto(bookingEntity)).toList();
 	}
 	
-	public void updateBooking(BookingDTO bookingDto) {
-		BookingEntity bookingEntity=BookingConverter.toEntity(bookingDto);
-		bookingRepository.save(bookingEntity);
-		
-	}
+
 	
 	public Boolean deleteBooking(Long id) {
 		bookingRepository.deleteById(id);
 		return true;
 	}
+	
+	
 }

@@ -42,14 +42,7 @@ public class BookingController {
 		return "booking has been saved";
 	}
 	
-	@PatchMapping("/updateBooking/{id}")
-	public String update(@RequestBody BookingDTO booking, @PathVariable Long id) {
-		
-		bookingService.findById(booking, id);
-		bookingService.updateBooking(booking);
-		return "booking has been updated";
-	}
-	
+
 	@PostMapping("/submitBooking")
 	public String submitBooking(@ModelAttribute BookingDTO booking) {
             

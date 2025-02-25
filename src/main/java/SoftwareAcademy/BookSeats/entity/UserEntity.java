@@ -43,6 +43,8 @@ public class UserEntity {
 	@Column
 	private String password;
 	
+	private String role;
+	
 	@OneToMany(mappedBy="user",
 			cascade = CascadeType.ALL,orphanRemoval = true)
 	private List<BookingEntity> bookings;

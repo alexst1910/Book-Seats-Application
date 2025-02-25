@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import SoftwareAcademy.BookSeats.converter.UserConverter;
+import SoftwareAcademy.BookSeats.dto.LoginDTO;
 import SoftwareAcademy.BookSeats.dto.UserDTO;
 import SoftwareAcademy.BookSeats.entity.UserEntity;
 import SoftwareAcademy.BookSeats.repository.UserRepository;
@@ -38,24 +39,30 @@ public class UserService {
 		return Streamable.of(userRepository.findAllByFirstNameContaining(firstName)).map(userEntity -> UserConverter.toDto(userEntity)).toList();
 	}
 	
-	public void login(UserDTO userDTO) {
-		
-		Optional<UserEntity> userOptional = userRepository.findByUsername(userDTO.getUsername());
-
-        if (userOptional.isPresent()) {
-             
-         System.out.println("Login Successful!");
-        }
-       
-		
-	}
 	
-	public void addUser(UserDTO user) {
+	// this is available for the user register in FE
+	public UserDTO addUser(UserEntity user) {
 		
-		UserEntity userEntity=UserConverter.toEntity(user);
-		userRepository.save(userEntity);
+		// set the user role by default
+		if(user.getRole()==null) {
+			user.setRole("USER");
+		}
+		
+		if(userRepository.existsByEmail(user.getEmail())) {
+			throw new RuntimeException(user.getEmail() + "already exists");
+		}
+		
+		userRepository.save(user);
+		return UserConverter.toDto(user);
 		
 		}
+	
+	public UserDTO login(LoginDTO login) {
+		
+		UserEntity user=userRepository.findByEmail(login.getEmail()).orElseThrow(()-> new RuntimeException("user doesn't exist"));
+			
+		return UserConverter.toDto(user);
+	}
 
 	public void deleteUserById(Long id) {
 			userRepository.deleteById(id);
