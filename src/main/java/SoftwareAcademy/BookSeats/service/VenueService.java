@@ -32,9 +32,10 @@ public class VenueService {
 	}
 	
 	
-	public void addVenue(VenueDTO venue) {
-		VenueEntity venueEntity=VenueConverter.toEntity(venue);
-		venueRepository.save(venueEntity);
+	public VenueDTO addVenue(VenueEntity venue) {
+		
+		venueRepository.save(venue);
+		return VenueConverter.toDto(venue);
 		
 		}
 	
