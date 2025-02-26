@@ -23,8 +23,6 @@ public class UserService {
 
 	private UserRepository userRepository;
 	
-
-	
 	
 	public UserService(UserRepository userRepository) {
 		this.userRepository=userRepository;
@@ -32,13 +30,14 @@ public class UserService {
 	}
 	
 	public List<UserDTO> getUsers() {
-		return Streamable.of(userRepository.findAll()).map(userEntity -> UserConverter.toDtoWithBookings(userEntity)).toList();
+		return Streamable.of(userRepository.findAll()).map(userEntity -> UserConverter.toDto(userEntity)).toList();
 	}
 	
-	public List<UserDTO> getAllByFirstNameContaining(String firstName){
-		return Streamable.of(userRepository.findAllByFirstNameContaining(firstName)).map(userEntity -> UserConverter.toDto(userEntity)).toList();
+	public UserDTO getUsersBookings(Long id) {
+		UserEntity userEntity=userRepository.findByUserId(id).orElseThrow(()-> new RuntimeException("User not found"));
+		
+		return UserConverter.toDtoWithBookingsAndVenue(userEntity);
 	}
-	
 	
 	// this is available for the user register in FE
 	public UserDTO addUser(UserEntity user) {

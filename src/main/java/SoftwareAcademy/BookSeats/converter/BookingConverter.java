@@ -2,6 +2,7 @@ package SoftwareAcademy.BookSeats.converter;
 
 import SoftwareAcademy.BookSeats.dto.BookingDTO;
 import SoftwareAcademy.BookSeats.dto.UserDTO;
+import SoftwareAcademy.BookSeats.dto.VenueDTO;
 import SoftwareAcademy.BookSeats.entity.BookingEntity;
 import SoftwareAcademy.BookSeats.entity.UserEntity;
 
@@ -18,6 +19,36 @@ public class BookingConverter {
 	
 		return dto;
 		 
+	}
+	
+	public static BookingDTO toDtoWithVenue(BookingEntity bookingEntity, boolean mapUser) {
+		BookingDTO dto= new BookingDTO();
+		dto.setBookingId(bookingEntity.getBookingId());
+		dto.setDate(bookingEntity.getDate());
+		dto.setTimeFrom(bookingEntity.getTimeFrom());
+		dto.setTimeTo(bookingEntity.getTimeTo());
+		dto.setSeats(bookingEntity.getSeats());
+		
+		if(mapUser) {
+			dto.setUser(UserConverter.toDto(bookingEntity.getUser()));
+		}
+		
+		if(bookingEntity.getVenue()!= null) {
+			
+			VenueDTO venueDto=new VenueDTO();
+			venueDto.setVenueId(bookingEntity.getVenue().getVenueId());
+			venueDto.setName(bookingEntity.getVenue().getName());
+			venueDto.setAddress(bookingEntity.getVenue().getAddress());
+			venueDto.setTotalSeats(bookingEntity.getVenue().getTotalSeats());
+			venueDto.setCover(bookingEntity.getVenue().getCover());
+			venueDto.setAvailableSeats(bookingEntity.getVenue().getAvailableSeats());
+			
+			dto.setVenue(venueDto);
+			
+			
+		}
+		
+		return dto;
 	}
 	
 	public static BookingEntity toEntity(BookingDTO bookingDto) {

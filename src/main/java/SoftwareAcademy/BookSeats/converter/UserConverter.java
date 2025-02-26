@@ -15,9 +15,10 @@ public class UserConverter {
 	
 	
 	
-	public static UserDTO toDtoWithBookings(UserEntity userEntity) {
+	public static UserDTO toDtoWithBookingsAndVenue(UserEntity userEntity) {
+		
 		UserDTO dto=toDto(userEntity);
-		dto.setBookings(userEntity.getBookings().stream().map(bookingEntity -> BookingConverter.toDto(bookingEntity)).toList());
+		dto.setBookings(userEntity.getBookings().stream().map(bookingEntity -> BookingConverter.toDtoWithVenue(bookingEntity, false)).toList());
 		
 		return dto;
 	}

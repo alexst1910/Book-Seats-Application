@@ -25,6 +25,7 @@ import SoftwareAcademy.BookSeats.service.UserService;
 
 @CrossOrigin(origins = "http://127.0.0.1:5500")
 @RestController
+@RequestMapping("/user")
 public class UserController {
 	
 	@Autowired
@@ -35,9 +36,10 @@ public class UserController {
 		return userService.getUsers();
 	}
 	
-	@GetMapping("/allUsersByFirstName/{first-name}")
-	public List<UserDTO> getAllByFirstnameContaining(@PathVariable("first-name") String firstName) {
-		return userService.getAllByFirstNameContaining(firstName);
+	@GetMapping("/usersBokings/{id}")
+	public String getUsersBookings(@PathVariable Long id) {
+		userService.getUsersBookings(id);
+		return "user's Bookings";
 	}
 	
 	@PostMapping("/addUser")
@@ -52,12 +54,9 @@ public class UserController {
 		
 		userService.login(login);
 		
-		
 	}
 	
 
-	
-	
 	@DeleteMapping("/deleteUserById/{id}")
 	public Boolean deleteUser(@PathVariable Long id) {
 		userService.deleteUserById(id);
