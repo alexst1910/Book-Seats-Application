@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import SoftwareAcademy.BookSeats.dto.BookingDTO;
 import SoftwareAcademy.BookSeats.dto.VenueDTO;
+import SoftwareAcademy.BookSeats.entity.BookingEntity;
 import SoftwareAcademy.BookSeats.service.BookingService;
 
 
@@ -35,21 +36,14 @@ public class BookingController {
 	}
 	
 	@PostMapping("/addBooking")
-	public String addBooking(@RequestBody BookingDTO booking) {
+	public String addBooking(@RequestBody BookingEntity booking, Long userId, Long venueId) {
 		
 
-		bookingService.addBooking(booking);
+		bookingService.addBooking(booking, userId, venueId);
 		return "booking has been saved";
 	}
 	
 
-	@PostMapping("/submitBooking")
-	public String submitBooking(@ModelAttribute BookingDTO booking) {
-            
-
-			bookingService.addBooking(booking);
-			return "booking has been saved";
-}
 	
 	@DeleteMapping("/deleteBookingById/{id}")
 	public Boolean deleteBooking(@PathVariable Long id) {

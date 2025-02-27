@@ -39,30 +39,15 @@ List<BookingDTO> bookings = new ArrayList<BookingDTO>();
 		return Streamable.of(bookingRepository.findAll()).map(bookingEntity -> BookingConverter.toDto(bookingEntity)).toList();
 	}
 	
-	public void addBooking(BookingDTO booking) {
+	public BookingDTO addBooking(BookingEntity booking, Long userId, Long venueId) {
 		
-		BookingEntity bookingEntity=BookingConverter.toEntity(booking);
+		UserEntity user=userRepository.findByUserId(userId).orElseThrow(()-> new RuntimeException("user not found"));
+		VenueEntity venue=venueRepository.findByVenueId(venueId).orElseThrow(()-> new RuntimeException("venue not found"));
 		
-		// logic to assign the user id to booking
-		if (booking.getUser() != null && booking.getUser().getUserId() != null) {
-				
-		        UserEntity existingUser = userRepository.findById(booking.getUser().getUserId())
-		                .orElseThrow(() -> new RuntimeException("User not found with ID: " + booking.getUser().getUserId()));
-		        bookingEntity.setUser(existingUser); 
-		    } else {
-		        throw new RuntimeException("User must be provided when creating a booking.");
-		    }
-		// logic to assign the venue id to booking
-		if (booking.getVenue() != null && booking.getVenue().getVenueId() != null) {
-			
-	        VenueEntity existingVenue = venueRepository.findById(booking.getVenue().getVenueId()) .orElseThrow(() -> new RuntimeException("Venue not found with ID: " + booking.getVenue().getVenueId()));
-        bookingEntity.setVenue(existingVenue); 
-	    } else {
-	        throw new RuntimeException("Venue must be provided when creating a booking.");
-	    }
-		
-		
-		 bookingRepository.save(bookingEntity);
+		booking.setUser(user);
+		booking.setVenue(venue);
+		bookingRepository.save(booking);
+		return BookingConverter.toDto(booking);
 	}
 	
 	public List <BookingDTO> findById(BookingDTO booking, Long id){

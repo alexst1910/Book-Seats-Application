@@ -1,6 +1,7 @@
 package SoftwareAcademy.BookSeats.service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.springframework.data.util.Streamable;
@@ -27,8 +28,11 @@ public class VenueService {
 		return Streamable.of(venueRepository.findAll()).map(venueEntity -> VenueConverter.toDtoWithBookings(venueEntity)).toList();
 	}
 	
+	
+	// reevaluate tomorrow
 	public List<VenueDTO> getVenuesById(Long id){
-		return Streamable.of(venueRepository.findByVenueId(id)).map(venueEntity -> VenueConverter.toDtoWithBookings(venueEntity)).toList();
+		return venueRepository.findByVenueId(id).map(venueEntity->VenueConverter.toDtoWithBookings(venueEntity)).stream().toList();
+		
 	}
 	
 	
