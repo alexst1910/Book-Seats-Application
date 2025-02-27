@@ -56,9 +56,6 @@ public class UserService {
 		userRepository.save(user);
 		return UserConverter.toDto(user);
 		
-		
-		
-		
 		}
 	
 	public UserDTO login(LoginDTO login) {

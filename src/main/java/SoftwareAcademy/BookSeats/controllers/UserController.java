@@ -43,9 +43,13 @@ public class UserController {
 	}
 	
 	@PostMapping("/addUser")
-	public ResponseEntity<String> addUser(@RequestBody UserEntity user) {
+	public ResponseEntity<Map<String, Object>> addUser(@RequestBody UserEntity user) {
 		userService.addUser(user);
-		return new ResponseEntity<String>(HttpStatus.OK);
+		Map<String, Object> response=new HashMap<>();
+		
+		response.put("message", "user saved");
+		response.put("user", user);
+		return ResponseEntity.ok(response);
 				
 		}
 	
