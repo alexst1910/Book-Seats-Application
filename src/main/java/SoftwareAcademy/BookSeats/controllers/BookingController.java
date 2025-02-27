@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -25,6 +26,7 @@ import SoftwareAcademy.BookSeats.service.BookingService;
 
 @CrossOrigin(origins = "http://127.0.0.1:5500")
 @RestController
+@RequestMapping("/booking")
 public class BookingController {
 	
 	@Autowired
@@ -35,8 +37,8 @@ public class BookingController {
 		return bookingService.getBookings();
 	}
 	
-	@PostMapping("/addBooking")
-	public String addBooking(@RequestBody BookingEntity booking, Long userId, Long venueId) {
+	@PostMapping("/addBooking/{userId}/{venueId}")
+	public String addBooking(@RequestBody BookingEntity booking, @PathVariable Long userId, @PathVariable Long venueId) {
 		
 
 		bookingService.addBooking(booking, userId, venueId);

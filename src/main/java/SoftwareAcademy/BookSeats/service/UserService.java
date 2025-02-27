@@ -30,7 +30,7 @@ public class UserService {
 	}
 	
 	public List<UserDTO> getUsers() {
-		return Streamable.of(userRepository.findAll()).map(userEntity -> UserConverter.toDto(userEntity)).toList();
+		return Streamable.of(userRepository.findAll()).map(userEntity -> UserConverter.toDtoWithBookingsAndVenue(userEntity)).toList();
 	}
 	
 	public UserDTO getUsersBookings(Long id) {

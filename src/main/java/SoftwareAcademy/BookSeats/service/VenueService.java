@@ -29,7 +29,7 @@ public class VenueService {
 	}
 	
 	
-	// reevaluate tomorrow
+	
 	public List<VenueDTO> getVenuesById(Long id){
 		return venueRepository.findByVenueId(id).map(venueEntity->VenueConverter.toDtoWithBookings(venueEntity)).stream().toList();
 		
