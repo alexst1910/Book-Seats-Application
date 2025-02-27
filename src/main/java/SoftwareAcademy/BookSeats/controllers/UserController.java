@@ -43,10 +43,10 @@ public class UserController {
 	}
 	
 	@PostMapping("/addUser")
-	public String addUser(@RequestBody UserEntity user) {
+	public ResponseEntity<String> addUser(@RequestBody UserEntity user) {
 		userService.addUser(user);
-		return "user has been saved";
-		
+		return new ResponseEntity<String>(HttpStatus.OK);
+				
 		}
 	
 	@PostMapping("/login")

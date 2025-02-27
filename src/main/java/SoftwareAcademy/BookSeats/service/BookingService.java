@@ -50,6 +50,10 @@ List<BookingDTO> bookings = new ArrayList<BookingDTO>();
 		return BookingConverter.toDto(booking);
 	}
 	
+//	public BookingDTO updateBooking(Long bookingId, LocalDate date, LocalTime timeFrom, LocalTime timeTo, Integer seats) {
+//		
+//	}
+	
 	public List <BookingDTO> findById(BookingDTO booking, Long id){
 		return Streamable.of(bookingRepository.findByBookingId(id)).map(bookingEntity -> BookingConverter.toDto(bookingEntity)).toList();
 	}

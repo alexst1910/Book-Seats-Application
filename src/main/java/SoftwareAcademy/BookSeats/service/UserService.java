@@ -30,8 +30,10 @@ public class UserService {
 	}
 	
 	public List<UserDTO> getUsers() {
+		
 		return Streamable.of(userRepository.findAll()).map(userEntity -> UserConverter.toDtoWithBookingsAndVenue(userEntity)).toList();
 	}
+	
 	
 	public UserDTO getUsersBookings(Long id) {
 		UserEntity userEntity=userRepository.findByUserId(id).orElseThrow(()-> new RuntimeException("User not found"));
@@ -53,6 +55,9 @@ public class UserService {
 		
 		userRepository.save(user);
 		return UserConverter.toDto(user);
+		
+		
+		
 		
 		}
 	
