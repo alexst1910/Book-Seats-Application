@@ -36,14 +36,15 @@ public class VenueController {
 	}
 	
 	@GetMapping("/getVenueById/{id}")
+	
 	public VenueDTO getVenuesById(@PathVariable Long id){
+		
 		return venueService.getVenuesById(id);
 	}
 	
 	@PostMapping("/addVenue")
 	public ResponseEntity<Map<String, Object>> addVenue(@RequestBody VenueEntity venue) {
 		venueService.addVenue(venue);
-		System.out.println("venue: "+ venue);
 		Map<String, Object> response=new HashMap<>();
 		response.put("venue", venue);
 		response.put("message", "venue saved");

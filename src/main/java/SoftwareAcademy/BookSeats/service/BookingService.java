@@ -50,12 +50,30 @@ List<BookingDTO> bookings = new ArrayList<BookingDTO>();
 		return BookingConverter.toDto(booking);
 	}
 	
-//	public BookingDTO updateBooking(Long bookingId, LocalDate date, LocalTime timeFrom, LocalTime timeTo, Integer seats) {
-//		
-//	}
+	public BookingDTO updateBooking(Long bookingId, LocalDate date, LocalTime timeFrom, LocalTime timeTo, Integer seats, Long userId, Long venueId) {
+		
+		UserEntity user=userRepository.findByUserId(userId).orElseThrow(()-> new RuntimeException("user not found"));
+		VenueEntity venue=venueRepository.findByVenueId(venueId).orElseThrow(()-> new RuntimeException("venue not found"));
+		
+		BookingEntity booking=bookingRepository.findByBookingId(bookingId).orElseThrow(()-> new RuntimeException("booking not found"));
+		
+		if(date!= null) booking.setDate(date);
+		if(timeFrom !=null) booking.setTimeFrom(timeFrom);
+		if(timeTo != null) booking.setTimeTo(timeTo);
+		if(seats !=null) booking.setSeats(seats);
+		
+		booking.setUser(user);
+		booking.setVenue(venue);
+		
+		bookingRepository.save(booking);
+		
+		return BookingConverter.toDto(booking);
+			
 	
-	public List <BookingDTO> findById(BookingDTO booking, Long id){
-		return Streamable.of(bookingRepository.findByBookingId(id)).map(bookingEntity -> BookingConverter.toDto(bookingEntity)).toList();
+	}
+	
+	public BookingDTO getBookingById(Long id){
+		return bookingRepository.findByBookingId(id).map(bookingEntity -> BookingConverter.toDto(bookingEntity)).orElse(null);
 	}
 	
 
