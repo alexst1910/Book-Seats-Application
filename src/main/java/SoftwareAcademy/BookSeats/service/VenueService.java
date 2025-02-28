@@ -30,8 +30,10 @@ public class VenueService {
 	
 	
 	
-	public List<VenueDTO> getVenuesById(Long id){
-		return venueRepository.findByVenueId(id).map(venueEntity->VenueConverter.toDtoWithBookings(venueEntity)).stream().toList();
+	public VenueDTO getVenuesById(Long id){
+		
+		// returns a single venue
+		return venueRepository.findByVenueId(id).map(venueEntity->VenueConverter.toDtoWithBookings(venueEntity)).orElse(null);
 		
 	}
 	

@@ -1,9 +1,12 @@
 package SoftwareAcademy.BookSeats.controllers;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,14 +36,19 @@ public class VenueController {
 	}
 	
 	@GetMapping("/getVenueById/{id}")
-	public List<VenueDTO> getVenuesById(@PathVariable Long id){
+	public VenueDTO getVenuesById(@PathVariable Long id){
 		return venueService.getVenuesById(id);
 	}
 	
 	@PostMapping("/addVenue")
-	public String addVenue(@RequestBody VenueEntity venue) {
+	public ResponseEntity<Map<String, Object>> addVenue(@RequestBody VenueEntity venue) {
 		venueService.addVenue(venue);
-		return "venue has been saved";
+		System.out.println("venue: "+ venue);
+		Map<String, Object> response=new HashMap<>();
+		response.put("venue", venue);
+		response.put("message", "venue saved");
+		return ResponseEntity.ok(response);
+		
 		
 		}
 	
