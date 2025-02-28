@@ -62,9 +62,15 @@ public class UserController {
 	
 
 	@DeleteMapping("/deleteUserById/{id}")
-	public Boolean deleteUser(@PathVariable Long id) {
+	public ResponseEntity<Map<String, Object>> deleteUser(@PathVariable Long id) {
+		
 		userService.deleteUserById(id);
-		return true;	}
+		Map<String, Object> response=new HashMap<>();
+		
+		response.put("message", "user deleted");
+		
+		return ResponseEntity.ok(response);
+			}
 }
 
 

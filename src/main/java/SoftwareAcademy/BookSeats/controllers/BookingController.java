@@ -42,28 +42,33 @@ public class BookingController {
 	}
 	
 	@PostMapping("/addBooking/{userId}/{venueId}")
-	public String addBooking(@RequestBody BookingEntity booking, @PathVariable Long userId, @PathVariable Long venueId) {
+	public ResponseEntity<Map<String, Object>> addBooking(@RequestBody BookingEntity booking, @PathVariable Long userId, @PathVariable Long venueId) {
 		
 
 		bookingService.addBooking(booking, userId, venueId);
-		return "booking has been saved";
-	}
-	
-	@PutMapping("/updateBooking/{userId}/{venueId}")
-	public ResponseEntity<Map<String, Object>> updateBooking(
-			Long bookingId,
-			@PathVariable Long userId,
-			@PathVariable Long venueId, 
-			@RequestParam (value="date") LocalDate date,
-			@RequestParam (value="timeFrom") LocalTime timeFrom,
-			@RequestParam (value="timeTo") LocalTime timeTo,
-			@RequestParam (value="seats") Integer seats
-			){
-		
-		bookingService.updateBooking(bookingId, date, timeFrom, timeTo, seats, userId, venueId);
 		Map<String, Object> response=new HashMap<>();
 		
-		response.put("message", "user saved");
+		response.put("message", "booking added!");
+		return ResponseEntity.ok(response);
+		
+	}
+	
+
+	@PutMapping("/updateBooking/{bookingId}/{userId}/{venueId}")
+	public ResponseEntity<Map<String, Object>> updateBooking(
+			@PathVariable Long bookingId,
+			@PathVariable Long userId,
+			@PathVariable Long venueId, 
+			@RequestParam (value="date", required=false) LocalDate date,
+			@RequestParam (value="timeFrom", required=false) LocalTime timeFrom,
+			@RequestParam (value="timeTo", required=false) LocalTime timeTo,
+			@RequestParam (value="seats", required=false) Integer seats
+			){
+		
+		bookingService.updateBooking(bookingId, userId, venueId, date, timeFrom, timeTo, seats);
+		Map<String, Object> response=new HashMap<>();
+		
+		response.put("message", "booking updated");
 		return ResponseEntity.ok(response);
 	}
 	

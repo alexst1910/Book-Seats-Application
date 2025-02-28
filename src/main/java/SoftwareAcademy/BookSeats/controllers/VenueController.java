@@ -32,6 +32,7 @@ public class VenueController {
 	
 	@GetMapping("/getVenue")
 	public List<VenueDTO> getVenues(){
+		
 		return venueService.getVenues();
 	}
 	
@@ -44,6 +45,7 @@ public class VenueController {
 	
 	@PostMapping("/addVenue")
 	public ResponseEntity<Map<String, Object>> addVenue(@RequestBody VenueEntity venue) {
+		
 		venueService.addVenue(venue);
 		Map<String, Object> response=new HashMap<>();
 		response.put("venue", venue);
@@ -54,7 +56,12 @@ public class VenueController {
 		}
 	
 	@DeleteMapping("/deleteVenueById/{id}")
-	public Boolean deleteVenue(@PathVariable Long id) {
-		return venueService.deleteVenue(id);
+	public ResponseEntity<Map<String, Object>> deleteVenue(@PathVariable Long id) {
+		
+		 venueService.deleteVenue(id);
+		Map<String, Object> response=new HashMap<>();
+		response.put("message", "venue deleted");
+		return ResponseEntity.ok(response);
+		
 		}
 }

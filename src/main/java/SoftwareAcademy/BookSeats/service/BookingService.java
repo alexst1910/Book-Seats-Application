@@ -50,7 +50,7 @@ List<BookingDTO> bookings = new ArrayList<BookingDTO>();
 		return BookingConverter.toDto(booking);
 	}
 	
-	public BookingDTO updateBooking(Long bookingId, LocalDate date, LocalTime timeFrom, LocalTime timeTo, Integer seats, Long userId, Long venueId) {
+	public BookingDTO updateBooking(Long bookingId, Long userId, Long venueId, LocalDate date, LocalTime timeFrom, LocalTime timeTo, Integer seats ) {
 		
 		UserEntity user=userRepository.findByUserId(userId).orElseThrow(()-> new RuntimeException("user not found"));
 		VenueEntity venue=venueRepository.findByVenueId(venueId).orElseThrow(()-> new RuntimeException("venue not found"));
