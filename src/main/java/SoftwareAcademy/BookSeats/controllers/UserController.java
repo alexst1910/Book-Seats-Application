@@ -54,9 +54,14 @@ public class UserController {
 		}
 	
 	@PostMapping("/login")
-	public void login(@RequestBody LoginDTO login) {
+	public ResponseEntity<Map<String, Object>> login(@RequestBody LoginDTO login) {
 		
 		userService.login(login);
+		Map<String, Object> response=new HashMap<>();
+		
+		response.put("message", "logged in");
+		
+		return ResponseEntity.ok(response);
 		
 	}
 	

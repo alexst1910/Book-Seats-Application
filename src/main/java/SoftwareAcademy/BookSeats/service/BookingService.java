@@ -82,7 +82,13 @@ List<BookingDTO> bookings = new ArrayList<BookingDTO>();
 		
 	}
 	
-	public void increaseAvailableSeats() {}
+	public Integer increaseAvailableSeats(BookingEntity booking, VenueEntity venue) {
+		
+		Integer availableSeats=venue.getAvailableSeats();
+		Integer bookingSeats=booking.getSeats();
+		return availableSeats+=bookingSeats;
+		
+	}
 	
 	public BookingDTO getBookingById(Long id){
 		return bookingRepository.findByBookingId(id).map(bookingEntity -> BookingConverter.toDto(bookingEntity)).orElse(null);
@@ -90,8 +96,14 @@ List<BookingDTO> bookings = new ArrayList<BookingDTO>();
 	
 
 	
-	public Boolean deleteBooking(Long id) {
-		bookingRepository.deleteById(id);
+	public Boolean deleteBooking(Long bookingId, Long venueId) {
+		
+		
+		VenueEntity venue=venueRepository.findByVenueId(venueId).orElseThrow(()-> new RuntimeException("venue not found"));
+		BookingEntity booking=bookingRepository.findByBookingId(bookingId).orElseThrow(()-> new RuntimeException("booking not found"));
+		bookingRepository.deleteById(bookingId);
+		venue.setAvailableSeats(increaseAvailableSeats(booking,venue));
+		venueRepository.save(venue);
 		return true;
 	}
 	
