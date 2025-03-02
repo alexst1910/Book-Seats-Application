@@ -47,6 +47,8 @@ List<BookingDTO> bookings = new ArrayList<BookingDTO>();
 		booking.setUser(user);
 		booking.setVenue(venue);
 		bookingRepository.save(booking);
+		venue.setAvailableSeats(decreaseAvailableSeats(booking,venue));
+		venueRepository.save(venue);
 		return BookingConverter.toDto(booking);
 	}
 	
@@ -65,12 +67,22 @@ List<BookingDTO> bookings = new ArrayList<BookingDTO>();
 		booking.setUser(user);
 		booking.setVenue(venue);
 		
+		
 		bookingRepository.save(booking);
 		
 		return BookingConverter.toDto(booking);
 			
 	
 	}
+	
+	public Integer decreaseAvailableSeats(BookingEntity booking, VenueEntity venue) {
+		Integer availableSeats=venue.getAvailableSeats();
+		Integer bookingSeats=booking.getSeats();
+		return availableSeats-=bookingSeats;
+		
+	}
+	
+	public void increaseAvailableSeats() {}
 	
 	public BookingDTO getBookingById(Long id){
 		return bookingRepository.findByBookingId(id).map(bookingEntity -> BookingConverter.toDto(bookingEntity)).orElse(null);

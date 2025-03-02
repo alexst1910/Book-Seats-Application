@@ -1,5 +1,7 @@
 package SoftwareAcademy.BookSeats.controllers;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -12,8 +14,10 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import SoftwareAcademy.BookSeats.dto.VenueDTO;
@@ -54,6 +58,24 @@ public class VenueController {
 		
 		
 		}
+	
+	@PutMapping("/updateVenue/{venueId}")
+	public ResponseEntity<Map<String, Object>> updateVenue(
+			@PathVariable Long venueId,
+			@RequestParam (value="name", required=false) String name,
+			@RequestParam (value="address", required=false) String address,
+			@RequestParam (value="totalSeats", required=false) Integer totalSeats,
+			@RequestParam (value="availableSeats", required=false) Integer availableSeats,
+			@RequestParam (value="cover", required=false) String cover
+			){
+		
+		venueService.updateVenue(venueId, name, address, totalSeats, availableSeats, cover);
+		Map<String, Object> response=new HashMap<>();
+		
+		response.put("message", "venue updated");
+		return ResponseEntity.ok(response);
+		
+	}
 	
 	@DeleteMapping("/deleteVenueById/{id}")
 	public ResponseEntity<Map<String, Object>> deleteVenue(@PathVariable Long id) {
