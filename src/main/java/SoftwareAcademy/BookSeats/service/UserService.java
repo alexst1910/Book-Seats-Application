@@ -36,6 +36,7 @@ public class UserService {
 	
 	
 	public UserDTO getUsersBookings(Long id) {
+		
 		UserEntity userEntity=userRepository.findByUserId(id).orElseThrow(()-> new RuntimeException("User not found"));
 		
 		return UserConverter.toDtoWithBookingsAndVenue(userEntity);

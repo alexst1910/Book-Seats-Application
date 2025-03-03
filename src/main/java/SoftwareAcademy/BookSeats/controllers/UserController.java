@@ -36,10 +36,12 @@ public class UserController {
 		return userService.getUsers();
 	}
 	
-	@GetMapping("/usersBokings/{id}")
-	public String getUsersBookings(@PathVariable Long id) {
-		userService.getUsersBookings(id);
-		return "user's Bookings";
+	@GetMapping("/usersBookings/{id}")
+	public ResponseEntity<UserDTO> getUsersBookings(@PathVariable Long id) {
+		
+		UserDTO userDto=userService.getUsersBookings(id);
+		
+		return ResponseEntity.ok(userDto);
 	}
 	
 	@PostMapping("/addUser")

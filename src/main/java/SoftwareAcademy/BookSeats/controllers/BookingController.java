@@ -74,9 +74,9 @@ public class BookingController {
 	
 
 	
-	@DeleteMapping("/deleteBookingById/{bookingId}/{venueId}")
-	public ResponseEntity<Map<String, Object>> deleteBooking(@PathVariable Long bookingId, @PathVariable Long venueId) {
-		 bookingService.deleteBooking(bookingId, venueId);
+	@DeleteMapping("/deleteBookingById/{bookingId}/{userId}")
+	public ResponseEntity<Map<String, Object>> deleteBooking(@PathVariable Long bookingId, @PathVariable Long userId) {
+		 bookingService.deleteBooking(bookingId, userId);
 		 Map<String, Object> response=new HashMap<>();
 		 response.put("message", "booking deleted!");
 		 return ResponseEntity.ok(response);
