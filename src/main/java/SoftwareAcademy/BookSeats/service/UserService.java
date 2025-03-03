@@ -35,6 +35,7 @@ public class UserService {
 	}
 	
 	
+	// helps displaying all bookings from a user
 	public UserDTO getUsersBookings(Long id) {
 		
 		UserEntity userEntity=userRepository.findByUserId(id).orElseThrow(()-> new RuntimeException("User not found"));
@@ -42,7 +43,7 @@ public class UserService {
 		return UserConverter.toDtoWithBookingsAndVenue(userEntity);
 	}
 	
-	// this is available for the user register in FE
+	
 	public UserDTO addUser(UserEntity user) {
 		
 		// set the user role by default

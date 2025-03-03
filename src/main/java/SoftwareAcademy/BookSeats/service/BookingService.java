@@ -75,6 +75,7 @@ List<BookingDTO> bookings = new ArrayList<BookingDTO>();
 	
 	}
 	
+	// updates the venue's available seats after saving booking
 	public Integer decreaseAvailableSeats(BookingEntity booking, VenueEntity venue) {
 		Integer availableSeats=venue.getAvailableSeats();
 		Integer bookingSeats=booking.getSeats();
@@ -82,6 +83,7 @@ List<BookingDTO> bookings = new ArrayList<BookingDTO>();
 		
 	}
 	
+	// updates the venue's available seats after deleting booking
 	public Integer increaseAvailableSeats(BookingEntity booking, VenueEntity venue) {
 		
 		Integer availableSeats=venue.getAvailableSeats();
