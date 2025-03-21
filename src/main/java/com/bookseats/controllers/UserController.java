@@ -42,7 +42,7 @@ public class UserController {
 		return ResponseEntity.ok(userDto);
 	}
 	
-	@PostMapping("/addUser")
+	@PostMapping("/register/")
 	public ResponseEntity<Map<String, Object>> addUser(@RequestBody UserEntity user) {
 		userService.addUser(user);
 		Map<String, Object> response=new HashMap<>();
@@ -53,7 +53,7 @@ public class UserController {
 				
 		}
 	
-	@PostMapping("/login")
+	@PostMapping("/login/")
 	public ResponseEntity<Map<String, Object>> login(@RequestBody LoginDTO login) {
 		
 		userService.login(login);

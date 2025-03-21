@@ -3,6 +3,11 @@ package com.bookseats.service;
 import java.util.List;
 
 import org.springframework.data.util.Streamable;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.bookseats.converter.UserConverter;
@@ -14,53 +19,62 @@ import com.bookseats.repository.UserRepository;
 @Service
 public class UserService {
 
-	private UserRepository userRepository;
-	
-	
-	public UserService(UserRepository userRepository) {
-		this.userRepository=userRepository;
-		
-	}
-	
-	public List<UserDTO> getUsers() {
-		
-		return Streamable.of(userRepository.findAll()).map(userEntity -> UserConverter.toDtoWithBookingsAndVenue(userEntity)).toList();
-	}
-	
-	
-	// helps displaying all bookings from a user
-	public UserDTO getUsersBookings(Long id) {
-		
-		UserEntity userEntity=userRepository.findByUserId(id).orElseThrow(()-> new RuntimeException("User not found"));
-		
-		return UserConverter.toDtoWithBookingsAndVenue(userEntity);
-	}
-	
-	
-	public UserDTO addUser(UserEntity user) {
-		
-		// set the user role by default
-		if (user.getRole() == null) {
-			user.setRole("USER");
-		}
-		
-		if(userRepository.existsByEmail(user.getEmail())) {
-			throw new RuntimeException(user.getEmail() + "already exists");
-		}
-		
-		userRepository.save(user);
-		return UserConverter.toDto(user);
-		
-		}
-	
-	public UserDTO login(LoginDTO login) {
-		
-		UserEntity user=userRepository.findByEmail(login.getEmail()).orElseThrow(()-> new RuntimeException("user doesn't exist"));
-			
-		return UserConverter.toDto(user);
-	}
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final AuthenticationManager authenticationManager;
 
-	public void deleteUserById(Long id) {
-			userRepository.deleteById(id);
-		}
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager) {
+        this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
+        this.authenticationManager = authenticationManager;
+
+
+    }
+
+    public List<UserDTO> getUsers() {
+
+        return Streamable.of(userRepository.findAll()).map(userEntity -> UserConverter.toDtoWithBookingsAndVenue(userEntity)).toList();
+    }
+
+
+    // helps displaying all bookings from a user
+    public UserDTO getUsersBookings(Long id) {
+
+        UserEntity userEntity = userRepository.findByUserId(id).orElseThrow(() -> new RuntimeException("User not found"));
+
+        return UserConverter.toDtoWithBookingsAndVenue(userEntity);
+    }
+
+
+    public UserDTO addUser(UserEntity user) {
+
+        if (userRepository.existsByEmail(user.getEmail())) {
+            throw new RuntimeException(user.getEmail() + "already exists");
+        }
+
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+
+        // set the user role by default
+        if (user.getRole() == null) {
+            user.setRole("USER");
+        }
+
+        userRepository.save(user);
+        return UserConverter.toDto(user);
+
+    }
+
+    public UserDTO login(LoginDTO login) {
+
+        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(login.getEmail(), login.getPassword()));
+        UserEntity user = userRepository.findByEmail(login.getEmail()).orElseThrow(() -> new RuntimeException("user doesn't exist"));
+        if (!passwordEncoder.matches(login.getPassword(), user.getPassword())) {
+            throw new RuntimeException("invalid credentials");
+        }
+        return UserConverter.toDto(user);
+    }
+
+    public void deleteUserById(Long id) {
+        userRepository.deleteById(id);
+    }
 }
