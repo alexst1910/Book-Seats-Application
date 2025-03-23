@@ -28,7 +28,31 @@ public class UserController {
 	
 	@Autowired
 	UserService userService;
-	
+
+
+	@PostMapping("/register")
+	public ResponseEntity<Map<String, Object>> addUser(@RequestBody UserEntity user) {
+		userService.addUser(user);
+		Map<String, Object> response=new HashMap<>();
+
+		response.put("message", "user saved");
+		response.put("user", user);
+		return ResponseEntity.ok(response);
+
+	}
+
+	@PostMapping("/login")
+	public ResponseEntity<Map<String, Object>> login(@RequestBody LoginDTO login) {
+
+		userService.login(login);
+		Map<String, Object> response=new HashMap<>();
+
+		response.put("message", "logged in");
+
+		return ResponseEntity.ok(response);
+
+	}
+
 	@GetMapping("/allUsers")
 	public List<UserDTO> getUsers() {
 		return userService.getUsers();
@@ -42,28 +66,7 @@ public class UserController {
 		return ResponseEntity.ok(userDto);
 	}
 	
-	@PostMapping("/register/")
-	public ResponseEntity<Map<String, Object>> addUser(@RequestBody UserEntity user) {
-		userService.addUser(user);
-		Map<String, Object> response=new HashMap<>();
-		
-		response.put("message", "user saved");
-		response.put("user", user);
-		return ResponseEntity.ok(response);
-				
-		}
-	
-	@PostMapping("/login/")
-	public ResponseEntity<Map<String, Object>> login(@RequestBody LoginDTO login) {
-		
-		userService.login(login);
-		Map<String, Object> response=new HashMap<>();
-		
-		response.put("message", "logged in");
-		
-		return ResponseEntity.ok(response);
-		
-	}
+
 	
 
 	@DeleteMapping("/deleteUserById/{id}")
