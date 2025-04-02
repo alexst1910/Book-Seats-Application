@@ -2,6 +2,9 @@ package com.bookseats.service;
 
 import java.util.List;
 
+import com.bookseats.response.LoginResponse;
+import com.bookseats.utils.JwtUtils;
+import io.jsonwebtoken.Jwt;
 import org.springframework.data.util.Streamable;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -22,11 +25,13 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
+    private final JwtUtils jwtUtils;
 
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager, JwtUtils jwtUtils) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.authenticationManager = authenticationManager;
+        this.jwtUtils=jwtUtils;
 
 
     }
@@ -64,14 +69,14 @@ public class UserService {
 
     }
 
-    public UserDTO login(LoginDTO login) {
+    public LoginResponse login(LoginDTO login) {
 
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(login.getEmail(), login.getPassword()));
         UserEntity user = userRepository.findByEmail(login.getEmail()).orElseThrow(() -> new RuntimeException("user doesn't exist"));
-        if (!passwordEncoder.matches(login.getPassword(), user.getPassword())) {
-            throw new RuntimeException("invalid credentials");
-        }
-        return UserConverter.toDto(user);
+
+        String token = jwtUtils.generateToken(user);
+
+        return new LoginResponse(UserConverter.toDto(user), token, 200);
     }
 
     public void deleteUserById(Long id) {

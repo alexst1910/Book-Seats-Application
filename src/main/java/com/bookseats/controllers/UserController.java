@@ -4,8 +4,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.bookseats.response.LoginResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,30 +32,10 @@ public class UserController {
 	UserService userService;
 
 
-	@PostMapping("/register")
-	public ResponseEntity<Map<String, Object>> addUser(@RequestBody UserEntity user) {
-		userService.addUser(user);
-		Map<String, Object> response=new HashMap<>();
 
-		response.put("message", "user saved");
-		response.put("user", user);
-		return ResponseEntity.ok(response);
-
-	}
-
-	@PostMapping("/login")
-	public ResponseEntity<Map<String, Object>> login(@RequestBody LoginDTO login) {
-
-		userService.login(login);
-		Map<String, Object> response=new HashMap<>();
-
-		response.put("message", "logged in");
-
-		return ResponseEntity.ok(response);
-
-	}
 
 	@GetMapping("/allUsers")
+	@PreAuthorize("hasAuthority('ADMIN')")
 	public List<UserDTO> getUsers() {
 		return userService.getUsers();
 	}
@@ -70,6 +52,7 @@ public class UserController {
 	
 
 	@DeleteMapping("/deleteUserById/{id}")
+	@PreAuthorize("hasAuthority('ADMIN')")
 	public ResponseEntity<Map<String, Object>> deleteUser(@PathVariable Long id) {
 		
 		userService.deleteUserById(id);
