@@ -71,8 +71,8 @@ public class UserService {
 
     public LoginResponse login(LoginDTO login) {
 
-        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(login.getEmail(), login.getPassword()));
-        UserEntity user = userRepository.findByEmail(login.getEmail()).orElseThrow(() -> new RuntimeException("user doesn't exist"));
+        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(login.getUsername(), login.getPassword()));
+        UserEntity user = userRepository.findByUsername(login.getUsername()).orElseThrow(() -> new RuntimeException("user doesn't exist"));
 
         String token = jwtUtils.generateToken(user);
 

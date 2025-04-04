@@ -27,41 +27,35 @@ import com.bookseats.service.UserService;
 @RestController
 @RequestMapping("/user")
 public class UserController {
-	
-	@Autowired
-	UserService userService;
+
+    @Autowired
+    UserService userService;
 
 
+    @GetMapping("/allUsers")
+    public List<UserDTO> getUsers() {
+        return userService.getUsers();
+    }
+
+    @GetMapping("/usersBookings/{id}")
+    public ResponseEntity<UserDTO> getUsersBookings(@PathVariable Long id) {
+
+        UserDTO userDto = userService.getUsersBookings(id);
+
+        return ResponseEntity.ok(userDto);
+    }
 
 
-	@GetMapping("/allUsers")
-	@PreAuthorize("hasAuthority('ADMIN')")
-	public List<UserDTO> getUsers() {
-		return userService.getUsers();
-	}
-	
-	@GetMapping("/usersBookings/{id}")
-	public ResponseEntity<UserDTO> getUsersBookings(@PathVariable Long id) {
-		
-		UserDTO userDto=userService.getUsersBookings(id);
-		
-		return ResponseEntity.ok(userDto);
-	}
-	
+    @DeleteMapping("/deleteUserById/{id}")
+    public ResponseEntity<Map<String, Object>> deleteUser(@PathVariable Long id) {
 
-	
+        userService.deleteUserById(id);
+        Map<String, Object> response = new HashMap<>();
 
-	@DeleteMapping("/deleteUserById/{id}")
-	@PreAuthorize("hasAuthority('ADMIN')")
-	public ResponseEntity<Map<String, Object>> deleteUser(@PathVariable Long id) {
-		
-		userService.deleteUserById(id);
-		Map<String, Object> response=new HashMap<>();
-		
-		response.put("message", "user deleted");
-		
-		return ResponseEntity.ok(response);
-			}
+        response.put("message", "user deleted");
+
+        return ResponseEntity.ok(response);
+    }
 }
 
 
