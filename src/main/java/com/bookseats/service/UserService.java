@@ -5,11 +5,13 @@ import java.util.List;
 import com.bookseats.response.LoginResponse;
 import com.bookseats.utils.JwtUtils;
 import io.jsonwebtoken.Jwt;
+import org.hibernate.mapping.UserDefinedArrayType;
 import org.springframework.data.util.Streamable;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -41,6 +43,14 @@ public class UserService {
         return Streamable.of(userRepository.findAll()).map(userEntity -> UserConverter.toDtoWithBookingsAndVenue(userEntity)).toList();
     }
 
+    // getting the current user after registration/log in
+    public UserDTO getCurrentUser(UserDetails userDetails){
+
+        System.out.println("current user: " + userDetails.getUsername());
+        UserEntity user=userRepository.findByUsername(userDetails.getUsername()).orElseThrow(()-> new RuntimeException("User not found"));
+        return UserConverter.toDto(user);
+
+    }
 
     // helps displaying all bookings from a user
     public UserDTO getUsersBookings(Long id) {
@@ -51,10 +61,10 @@ public class UserService {
     }
 
 
-    public UserDTO addUser(UserEntity user) {
+    public LoginResponse addUser(UserEntity user) {
 
         if (userRepository.existsByEmail(user.getEmail())) {
-            throw new RuntimeException(user.getEmail() + "already exists");
+            throw new RuntimeException(user.getEmail() + " already exists");
         }
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
@@ -65,8 +75,9 @@ public class UserService {
         }
 
         userRepository.save(user);
-        return UserConverter.toDto(user);
 
+        String token = jwtUtils.generateToken(user);
+        return new LoginResponse(UserConverter.toDto(user), token, 200);
     }
 
     public LoginResponse login(LoginDTO login) {

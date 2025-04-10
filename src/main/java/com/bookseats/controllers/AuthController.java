@@ -20,23 +20,26 @@ public class AuthController {
     UserService userService;
 
     @PostMapping("/register")
-    public ResponseEntity<Map<String, Object>> addUser(@RequestBody UserEntity user) {
-        userService.addUser(user);
-        Map<String, Object> response=new HashMap<>();
+    public ResponseEntity<LoginResponse> addUser(@RequestBody UserEntity user) {
+
+        LoginResponse newUser = userService.addUser(user);
+        Map<String, Object> response = new HashMap<>();
 
         response.put("message", "user saved");
-        response.put("user", user);
-        return ResponseEntity.ok(response);
+
+        return ResponseEntity.ok(response).status(newUser.getStatusCode()).body(newUser);
 
     }
 
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> login(@RequestBody LoginDTO login) {
 
-        LoginResponse loginResponse=userService.login(login);
+        LoginResponse loginResponse = userService.login(login);
 
+        Map<String, String> response = new HashMap<>();
+        response.put("messsage", "logged in");
 
-        return ResponseEntity.status(loginResponse.getStatusCode()).body(loginResponse);
+        return ResponseEntity.ok(response).status(loginResponse.getStatusCode()).body(loginResponse);
 
     }
 }

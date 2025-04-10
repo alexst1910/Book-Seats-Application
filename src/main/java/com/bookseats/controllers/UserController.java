@@ -8,6 +8,8 @@ import com.bookseats.response.LoginResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -43,6 +45,14 @@ public class UserController {
         UserDTO userDto = userService.getUsersBookings(id);
 
         return ResponseEntity.ok(userDto);
+    }
+
+    @GetMapping("/current")
+    public ResponseEntity<UserDTO> getCurrentUser(@AuthenticationPrincipal UserDetails userDetails) {
+
+        UserDTO currentUser = userService.getCurrentUser(userDetails);
+
+        return ResponseEntity.ok(currentUser);
     }
 
 
