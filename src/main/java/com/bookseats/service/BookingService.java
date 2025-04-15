@@ -97,17 +97,24 @@ List<BookingDTO> bookings = new ArrayList<BookingDTO>();
 	
 
 	
-	public Boolean deleteBooking(Long bookingId, Long userId) {
+	public Boolean deleteBooking(Long bookingId, Long userId, Long venueId) {
 		
 		
 		UserEntity user=userRepository.findByUserId(userId).orElseThrow(()-> new RuntimeException("user not found"));
 		BookingEntity booking=bookingRepository.findByBookingId(bookingId).orElseThrow(()-> new RuntimeException("booking not found"));
+		VenueEntity venue=venueRepository.findByVenueId(venueId).orElseThrow(()-> new RuntimeException("venue not found"));
+
+		// removing the booking from both venue and user
+		user.getBookings().remove(booking);
+		venue.getBookings().remove(booking);
+
 		bookingRepository.deleteById(bookingId);
 		
-		// increasing available seats for venue 
-		// doesn't work on delete from front-end
-//		venue.setAvailableSeats(increaseAvailableSeats(booking,venue));
-//		venueRepository.save(venue);
+		// increasing available seats for venue
+		venue.setAvailableSeats(increaseAvailableSeats(booking,venue));
+
+		userRepository.save(user);
+		venueRepository.save(venue);
 		
 		return true;
 	}
