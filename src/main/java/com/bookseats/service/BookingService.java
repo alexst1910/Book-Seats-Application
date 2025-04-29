@@ -21,7 +21,7 @@ import com.bookseats.repository.VenueRepository;
 @Service
 public class BookingService {
 
-List<BookingDTO> bookings = new ArrayList<BookingDTO>();
+
 	
    BookingRepository bookingRepository;
    UserRepository userRepository;
@@ -37,41 +37,47 @@ List<BookingDTO> bookings = new ArrayList<BookingDTO>();
 	public List<BookingDTO> getBookings(){
 		return Streamable.of(bookingRepository.findAll()).map(bookingEntity -> BookingConverter.toDto(bookingEntity)).toList();
 	}
-	
+
 	public BookingDTO addBooking(BookingEntity booking, Long userId, Long venueId) {
-		
-		UserEntity user=userRepository.findByUserId(userId).orElseThrow(()-> new RuntimeException("user not found"));
-		VenueEntity venue=venueRepository.findByVenueId(venueId).orElseThrow(()-> new RuntimeException("venue not found"));
-		
+
+		UserEntity user = userRepository.findByUserId(userId).orElseThrow(() -> new RuntimeException("user not found"));
+		VenueEntity venue = venueRepository.findByVenueId(venueId).orElseThrow(() -> new RuntimeException("venue not found"));
+
 		booking.setUser(user);
 		booking.setVenue(venue);
 		bookingRepository.save(booking);
-		venue.setAvailableSeats(decreaseAvailableSeats(booking,venue));
+		venue.setAvailableSeats(decreaseAvailableSeats(booking, venue));
 		venueRepository.save(venue);
+
 		return BookingConverter.toDto(booking);
 	}
-	
-	public BookingDTO updateBooking(Long bookingId, Long userId, Long venueId, LocalDate date, LocalTime timeFrom, LocalTime timeTo, Integer seats ) {
-		
-		UserEntity user=userRepository.findByUserId(userId).orElseThrow(()-> new RuntimeException("user not found"));
-		VenueEntity venue=venueRepository.findByVenueId(venueId).orElseThrow(()-> new RuntimeException("venue not found"));
-		
-		BookingEntity booking=bookingRepository.findByBookingId(bookingId).orElseThrow(()-> new RuntimeException("booking not found"));
-		
-		if(date!= null) booking.setDate(date);
-		if(timeFrom !=null) booking.setTimeFrom(timeFrom);
-		if(timeTo != null) booking.setTimeTo(timeTo);
-		if(seats !=null) booking.setSeats(seats);
+
+	public BookingDTO updateBooking(Long bookingId, Long userId, Long venueId, LocalDate date, LocalTime timeFrom, LocalTime timeTo, Integer seats) {
+
+		UserEntity user = userRepository.findByUserId(userId).orElseThrow(() -> new RuntimeException("user not found"));
+		VenueEntity venue = venueRepository.findByVenueId(venueId).orElseThrow(() -> new RuntimeException("venue not found"));
+
+		BookingEntity booking = bookingRepository.findByBookingId(bookingId).orElseThrow(() -> new RuntimeException("booking not found"));
+
+		int seatDelta=0;
+
+		if (date != null) booking.setDate(date);
+		if (timeFrom != null) booking.setTimeFrom(timeFrom);
+		if (timeTo != null) booking.setTimeTo(timeTo);
+		if (seats != null){
+			seatDelta=seats-booking.getSeats();
+			booking.setSeats(seats);
+		}
 		
 		booking.setUser(user);
 		booking.setVenue(venue);
-		
-		
 		bookingRepository.save(booking);
-		
+		venue.setAvailableSeats(venue.getAvailableSeats()-seatDelta);
+		venueRepository.save(venue);
+
 		return BookingConverter.toDto(booking);
-			
-	
+
+
 	}
 	
 	// updates the venue's available seats after saving booking

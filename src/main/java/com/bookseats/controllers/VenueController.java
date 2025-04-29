@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -43,8 +44,10 @@ public class VenueController {
 		
 		return venueService.getVenuesById(id);
 	}
-	
+
+
 	@PostMapping("/addVenue")
+	@PreAuthorize("hasAuthority('ADMIN')")
 	public ResponseEntity<Map<String, Object>> addVenue(@RequestBody VenueEntity venue) {
 		
 		venueService.addVenue(venue);
@@ -57,6 +60,7 @@ public class VenueController {
 		}
 	
 	@PutMapping("/updateVenue/{venueId}")
+	@PreAuthorize("hasAuthority('ADMIN')")
 	public ResponseEntity<Map<String, Object>> updateVenue(
 			@PathVariable Long venueId,
 			@RequestParam (value="name", required=false) String name,
@@ -75,6 +79,7 @@ public class VenueController {
 	}
 	
 	@DeleteMapping("/deleteVenueById/{id}")
+	@PreAuthorize("hasAuthority('ADMIN')")
 	public ResponseEntity<Map<String, Object>> deleteVenue(@PathVariable Long id) {
 		
 		 venueService.deleteVenue(id);
