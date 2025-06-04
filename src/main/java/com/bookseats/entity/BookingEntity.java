@@ -24,7 +24,6 @@ public class BookingEntity {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name="booking_id")
 	private Long bookingId;
-	
 
 	@Column
 	private LocalDate date;
@@ -37,8 +36,7 @@ public class BookingEntity {
 	
 	@Column
 	private Integer seats;
-	
-	
+
 	@ManyToOne(cascade=CascadeType.MERGE)
 	@JoinColumn(name="user_id")
 	private UserEntity user;
@@ -46,6 +44,5 @@ public class BookingEntity {
 	@ManyToOne(cascade=CascadeType.MERGE)
 	@JoinColumn(name="venue_id")
 	private VenueEntity venue;
-
 
 }

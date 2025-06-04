@@ -49,6 +49,7 @@ public class VenueService {
 		if (availableSeats != null)
 			venue.setAvailableSeats(availableSeats);
 		if (cover != null)
+			venue.setCover(cover);
 
 			venueRepository.save(venue);
 

@@ -1,33 +1,32 @@
 package com.bookseats.controllers;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.bookseats.dto.VenueDTO;
 import com.bookseats.entity.VenueEntity;
 import com.bookseats.service.VenueService;
-
+import org.springframework.web.multipart.MultipartFile;
 
 
 @CrossOrigin(origins = "http://127.0.0.1:5500")
 @RestController
 @RequestMapping("/venue")
 public class VenueController {
+
 
 	@Autowired
 	VenueService venueService;
@@ -46,16 +45,31 @@ public class VenueController {
 	}
 
 
-	@PostMapping("/addVenue")
+	@PostMapping(value = "/addVenue", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 	@PreAuthorize("hasAuthority('ADMIN')")
-	public ResponseEntity<Map<String, Object>> addVenue(@RequestBody VenueEntity venue) {
-		
+	public ResponseEntity<Map<String, Object>> addVenue(@RequestPart("venue") VenueDTO venueDto, @RequestPart("imageFile") MultipartFile imageFile) throws IOException {
+
+		String fileName = imageFile.getOriginalFilename();
+		Path imagePath = Paths.get("uploads/images/", fileName);
+		Files.createDirectories(imagePath.getParent());
+		Files.copy(imageFile.getInputStream(), imagePath, StandardCopyOption.REPLACE_EXISTING);
+
+		VenueEntity venue = new VenueEntity();
+		venue.setName(venueDto.getName());
+		venue.setAddress(venueDto.getAddress());
+		venue.setTotalSeats(venueDto.getTotalSeats());
+		venue.setAvailableSeats(venueDto.getAvailableSeats());
+		venue.setCover("/uploads/images/" + fileName);
+
+
+		VenueDTO savedVenue = venueService.addVenue(venue);
+
 		venueService.addVenue(venue);
 		Map<String, Object> response=new HashMap<>();
-		response.put("venue", venue);
+		response.put("venue", savedVenue);
 		response.put("message", "venue saved");
 		return ResponseEntity.ok(response);
-		
+
 		
 		}
 	

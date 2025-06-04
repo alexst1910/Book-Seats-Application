@@ -6,6 +6,7 @@ import org.apache.catalina.filters.CorsFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.ProviderManager;
@@ -49,8 +50,9 @@ public class SecurityConfig {
                 .cors(Customizer.withDefaults())
                 .authenticationProvider(authenticationProvider())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/images/**").permitAll()
+                        .requestMatchers("/uploads/images/**").permitAll()
                         .requestMatchers("/auth/register", "/auth/login", "/venue/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/venue/addVenue").hasAuthority("ADMIN")
                         .anyRequest().authenticated())
                 .sessionManagement(session ->session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
